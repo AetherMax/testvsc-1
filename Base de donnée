@@ -1,0 +1,28 @@
+<?php
+$servername = "sigBiblio";
+$username = "sigBiblio";
+$password = "secret";
+$dbname = "Sig_Biblio";
+
+try {
+    // Créer une connexion
+    $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+    // Définir le mode d'erreur PDO sur exception
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+    // Préparer la requête SQL
+    $stmt = $conn->prepare("SELECT titre, numAuteur FROM livre");
+    $stmt->execute();
+
+    // Récupérer tous les résultats
+    $result = $stmt->fetchAll();
+
+    // Afficher les données de chaque ligne
+    foreach($result as $row) {
+        echo " - Titre: " . $row["titre"]. " - NumAuteur: " . $row["numauteur"]. "<br>";
+    }
+} catch(PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
+}
+$conn = null;
+?>
